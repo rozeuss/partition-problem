@@ -1,3 +1,10 @@
+package tests;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -5,11 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelGenerator {
 
@@ -22,38 +24,17 @@ public class ExcelGenerator {
         excelGenerator.write();
     }
 
-    public void write(){
-        targetPath = createDirectoryWithFile();
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        createExcel(workbook);
-        try {
-            FileOutputStream outputStream = new FileOutputStream(targetPath.toString());
-            workbook.write(outputStream);
-            workbook.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                workbook.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private static void createExcel(XSSFWorkbook workbook) {
         System.out.println("Creating excel");
         XSSFSheet sheet = workbook.createSheet("Datatypes in Java");
         createHeaders(sheet);
         Object[][] datatypes = {
-            {"Datatype", "Type", "Size(in bytes)"},
-            {"int", "Primitive", Integer.BYTES},
-            {"float", "Primitive", Float.BYTES},
-            {"double", "Primitive", Double.BYTES},
-            {"char", "Primitive", Character.BYTES},
-            {"String", "Non-Primitive", "No fixed size"}
+                {"Datatype", "Type", "Size(in bytes)"},
+                {"int", "Primitive", Integer.BYTES},
+                {"float", "Primitive", Float.BYTES},
+                {"double", "Primitive", Double.BYTES},
+                {"char", "Primitive", Character.BYTES},
+                {"String", "Non-Primitive", "No fixed size"}
         };
         int rowNum = sheet.getLastRowNum() + 1;
         for (Object[] datatype : datatypes) {
@@ -72,7 +53,7 @@ public class ExcelGenerator {
 
     private static void createHeaders(XSSFSheet sheet) {
         Row headerRow = sheet.createRow(0);
-        for(int i = 0; i < headers.length; i++) {
+        for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
         }
@@ -90,5 +71,26 @@ public class ExcelGenerator {
             }
         }
         return path;
+    }
+
+    public void write() {
+        targetPath = createDirectoryWithFile();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        createExcel(workbook);
+        try {
+            FileOutputStream outputStream = new FileOutputStream(targetPath.toString());
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

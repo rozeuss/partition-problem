@@ -1,30 +1,47 @@
+package algorithm;
+
+import utils.RandomValuesGenerator;
+import utils.ResultSets;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class BruteForcePartition {
     static final int SIZE = 10;
-    static ArrayList<Integer> firstSubset = new ArrayList<>();
-    static boolean found;
+    static List<ResultSets> solutions;
     static int[] positions;
-    static ArrayList<Integer> secondSubset = new ArrayList<>();
-    static int[] set;
     static boolean overflow;
 
     public static void main(String[] args) {
-//        set = new int[]{1, 2, 3, 4, 64, 52, 21321312};
-        set = generateRandomValues();
+        workingExample();
+        int[] set = generateRandomValues();
         positions = new int[set.length];
+        solutions = new ArrayList<>();
         System.out.println("Set: " + Arrays.toString(set));
         System.out.println("Sum = " + Arrays.stream(set).sum());
-        evaluate();
+        bruteForcePartition(set);
         printResult();
+    }
+
+    public static void workingExample() {
+//        dane pozwalające na ocenę „jakości (dokładności) rozwiązania”
+        int[] set = new int[]{1, 2, 3, 4};
+        positions = new int[set.length];
+        solutions = new ArrayList<>();
+        System.out.println("Set: " + Arrays.toString(set));
+        System.out.println("Sum = " + Arrays.stream(set).sum());
+        bruteForcePartition(set);
+        printResult();
+        overflow = false;
+        System.out.println("\n");
     }
 
     private static int checkDifference(int firstSum, int secondSum) {
         return Math.abs(secondSum - firstSum);
     }
 
-    private static void evaluate() {
+    private static void bruteForcePartition(int[] set) {
         if (Arrays.stream(set).sum() % 2 != 0) {
             System.out.print("\nOdd sum. ");
             return;
@@ -50,10 +67,10 @@ public class BruteForcePartition {
             int rightSum = second.stream().mapToInt(Integer::intValue).sum();
             System.out.println(rightSum);
             if (checkDifference(leftSum, rightSum) == 0) {
-                firstSubset = first;
-                secondSubset = second;
-                found = true;
-                break;
+                ResultSets resultSets = new ResultSets();
+                resultSets.setFirstSubset(first);
+                resultSets.setSecondSubset(second);
+                solutions.add(resultSets);
             }
             count++;
             getPositions(0);
@@ -65,7 +82,6 @@ public class BruteForcePartition {
             positions[i] = 1;
             if (i == positions.length - 1)
                 overflow = true;
-            return;
         } else if (positions[i] == 1) {
             positions[i] = 0;
             i++;
@@ -75,12 +91,15 @@ public class BruteForcePartition {
 
     private static void printResult() {
         System.out.println();
-        if (found) {
-            System.out.println("Solution found:");
-            System.out.println(firstSubset.toString()
-                    + " => " + firstSubset.stream().mapToInt(Integer::intValue).sum());
-            System.out.println(secondSubset.toString()
-                    + " => " + secondSubset.stream().mapToInt(Integer::intValue).sum());
+        if (!solutions.isEmpty()) {
+            System.out.println("Solution(s) found:");
+            solutions.forEach(resultSets -> {
+                System.out.println("###############");
+                System.out.println(resultSets.getFirstSubset().toString()
+                        + " => " + resultSets.getFirstSubset().stream().mapToInt(Integer::intValue).sum());
+                System.out.println(resultSets.getSecondSubset().toString()
+                        + " => " + resultSets.getSecondSubset().stream().mapToInt(Integer::intValue).sum());
+            });
         } else {
             System.out.println("Solution not found.");
         }

@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.Random;
 
 public class RandomValuesGenerator {
@@ -19,13 +21,13 @@ public class RandomValuesGenerator {
             return t;
     }
 
-     static int randomInt() {
+    public static int randomInt() {
         Random generator = new Random();
         int n = MAX - MIN + 1;
         int t = (generator.nextInt()) % (n);
         if (t == 0)
             return (MAX);
-        else if (t < (long) 0)
+        else if (t < 0)
             return (Math.abs(t));
         else
             return t;
