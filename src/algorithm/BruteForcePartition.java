@@ -8,16 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BruteForcePartition {
-    static final int SIZE = 10;
+    public static int SIZE = 10;
     static List<ResultSets> solutions;
     static int[] positions;
     static boolean overflow;
 
     public static void main(String[] args) {
-        workingExample();
+//        workingExample();
         int[] set = generateRandomValues();
-        positions = new int[set.length];
-        solutions = new ArrayList<>();
         System.out.println("Set: " + Arrays.toString(set));
         System.out.println("Sum = " + Arrays.stream(set).sum());
         bruteForcePartition(set);
@@ -26,7 +24,9 @@ public class BruteForcePartition {
 
     public static void workingExample() {
 //        dane pozwalające na ocenę „jakości (dokładności) rozwiązania”
+        System.out.println("**************WORKING EXAMPLE**************");
         int[] set = new int[]{1, 2, 3, 4};
+//        int[] set = new int[]{4, 5, 6, 7, 8};
         positions = new int[set.length];
         solutions = new ArrayList<>();
         System.out.println("Set: " + Arrays.toString(set));
@@ -34,6 +34,7 @@ public class BruteForcePartition {
         bruteForcePartition(set);
         printResult();
         overflow = false;
+        System.out.println("**************WORKING EXAMPLE**************");
         System.out.println("\n");
     }
 
@@ -41,11 +42,14 @@ public class BruteForcePartition {
         return Math.abs(secondSum - firstSum);
     }
 
-    private static void bruteForcePartition(int[] set) {
-        if (Arrays.stream(set).sum() % 2 != 0) {
-            System.out.print("\nOdd sum. ");
-            return;
-        }
+    public static void bruteForcePartition(int[] set) {
+        positions = new int[set.length];
+        solutions = new ArrayList<>();
+        overflow = false;
+//        if (Arrays.stream(set).sum() % 2 != 0) {
+//            System.out.print("\nOdd sum. ");
+//            return;
+//        }
         int count = 1;
         ArrayList<Integer> first;
         ArrayList<Integer> second;
