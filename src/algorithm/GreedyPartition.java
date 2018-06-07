@@ -1,11 +1,12 @@
 package algorithm;
 
+import utils.RandomValuesGenerator;
+import utils.ResultSets;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import utils.RandomValuesGenerator;
-import utils.ResultSets;
 
 public class GreedyPartition {
     public static int SIZE = 10;

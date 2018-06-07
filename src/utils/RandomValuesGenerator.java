@@ -1,6 +1,6 @@
 package utils;
 
-import java.util.Random;
+        import java.util.Random;
 
 public class RandomValuesGenerator {
     private static final int MAX = 100;
